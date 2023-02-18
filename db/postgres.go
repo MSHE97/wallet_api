@@ -14,7 +14,7 @@ import (
 var database *gorm.DB
 
 func initDB() *gorm.DB {
-	params := utils.Settings.PostgresParams
+	params := utils.Sets.PostgresParams
 
 	connString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 		params.Server, strconv.Itoa(params.Port),

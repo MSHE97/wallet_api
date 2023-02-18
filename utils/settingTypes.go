@@ -1,4 +1,4 @@
-package models
+package utils
 
 // Settings API config struct
 type Settings struct {

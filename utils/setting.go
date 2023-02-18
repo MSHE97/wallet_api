@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"os"
-	"wallet/models"
 )
 
-var Settings models.Settings
+var Sets Settings
 
 // ReadConfigs to init api settings
 func ReadConfigs() {
@@ -18,7 +17,7 @@ func ReadConfigs() {
 		panic(err)
 	}
 
-	err = json.Unmarshal(doc, &Settings)
+	err = json.Unmarshal(doc, &Sets)
 	if err != nil {
 		log.Println(err)
 		panic(err.Error())

@@ -4,6 +4,7 @@ import (
 	"log"
 	"wallet/db"
 	"wallet/logger"
+	"wallet/models"
 	"wallet/utils"
 )
 
@@ -14,4 +15,19 @@ func main() {
 
 	log.Print("[MAIN] Datebase connecting...")
 	db.Connect()
+	logger.File.Println("[MAIN] Automigration...")
+	err := autoMigrateDB()
+	if err != nil {
+		logger.File.Println("	[AUTOMIGRATE] ", err)
+	}
+}
+
+func autoMigrateDB() error {
+	err := db.GetConn().AutoMigrate(
+		models.Accounts{},
+		models.Payments{},
+		models.Users{},
+		models.Sessions{},
+	).Error
+	return err
 }
