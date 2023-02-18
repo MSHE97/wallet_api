@@ -15,7 +15,7 @@ type Accounts struct {
 	UserUuid     uuid.UUID `gorm:"column:user_uuid" json:"user_uuid"`
 	User         Users     `gorm:"-" json:"-"`
 	Identified   bool      `gorm:"column:identified" json:"identified"`
-	IdentifiedAt time.Time `gorm:"column:default: null" json:"-"`
+	IdentifiedAt time.Time `gorm:"default: null" json:"-"`
 	Balance      Money     `gorm:"column:balance" json:"balance"`
 	CreatedAt    time.Time `gorm:"default: CURRENT_TIMESTAMP" json:"-"`
 	UpdatedAt    time.Time `gorm:"default: null" json:"-"`
@@ -45,8 +45,8 @@ func (a *Accounts) GetByID(ID int64) error {
 	return nil
 }
 
-func (a *Accounts) GetByPhone(phone string) error {
-	if err := db.GetConn().Where(Accounts{Phone: Phone(phone)}).Last(a).Error; err != nil {
+func (a *Accounts) GetByPhone(phone Phone) error {
+	if err := db.GetConn().Where(Accounts{Phone: phone}).Last(a).Error; err != nil {
 		logger.File.Println(ErrAccNotFound, "phone =", phone)
 		return ErrAccNotFound
 	}

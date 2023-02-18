@@ -13,7 +13,7 @@ type Users struct {
 	ID        int64     `gorm:"column:id; primary_key; auto_increment" json:"id"`
 	Uuid      uuid.UUID `gorm:"column:uuid; unique_index; default: null" json:"uuid"`
 	Name      string    `gorm:"column:name;" json:"name"`
-	Phone     string    `gorm:"column:phone; unique_index" json:"phone"`
+	Phone     Phone     `gorm:"column:phone; unique_index" json:"phone"`
 	PIN       string    `gorm:"column:pin; default: null" json:"-"`
 	AccountId int64     `gorm:"column:account_id" json:"account_id"`
 	Active    bool      `gorm:"column:active; default:true" json:"active"`
@@ -44,7 +44,7 @@ func (u *Users) GetByID(ID int64) error {
 	return nil
 }
 
-func (u *Users) GetByPhone(phone string) error {
+func (u *Users) GetByPhone(phone Phone) error {
 	if err := db.GetConn().Where(Users{Phone: phone, Active: true}).Last(u).Error; err != nil {
 		logger.File.Println(ErrUserNotFound, "phone =", phone)
 		return ErrUserNotFound

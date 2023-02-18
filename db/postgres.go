@@ -26,7 +26,7 @@ func initDB() *gorm.DB {
 		log.Printf("\n[DB] Coudn't connect to postgresql database . !! %v !!", connString)
 		log.Panic(err)
 	}
-	logger.File.Println("PostgreSQL connection string: ", connString)
+	//logger.File.Println("PostgreSQL connection string: ", connString)
 	db.LogMode(true)
 	db.SingularTable(true)
 	return db

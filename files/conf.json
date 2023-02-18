@@ -2,13 +2,14 @@
     "api":{
         "server_name":"localhost",
         "port_run":8000,
-        "log_file":"files/logs.txt"
+        "log_file":"files/logs.txt",
+        "secret":"wallet_api@23"
     },
     "postgresql":{
         "user":"postgres",
         "password":"postgres",
         "server":"localhost",
-        "port":"5432",
+        "port":5432,
         "schema":"wallet"
     },
     "business":{

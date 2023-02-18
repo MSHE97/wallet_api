@@ -11,6 +11,7 @@ type Params struct {
 	ServerName string `json:"server_name"`
 	PortRun    int    `json:"port_run"`
 	LogFile    string `json:"log_file"`
+	Secret     string `json:"secret"`
 }
 
 type PostgresSets struct {
@@ -22,6 +23,6 @@ type PostgresSets struct {
 }
 
 type Business struct {
-	MaxBalance string `json:"max_balance"`
-	MinBalance string `json:"min_balance"`
+	MaxBalance int `json:"max_balance"`
+	MinBalance int `json:"min_balance"`
 }
