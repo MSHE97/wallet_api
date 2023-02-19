@@ -9,6 +9,8 @@ type PaymentCategory string
 // PaymentStatus - представляет собой статус платежа
 type PaymentStatus string
 
+type PaymentType string
+
 type Phone string
 
 // Предопределённые статусы
@@ -16,4 +18,11 @@ const (
 	PaymentStatusOk         PaymentStatus = "OK"
 	PaymentStatusFail       PaymentStatus = "FAIL"
 	PaymentStatusInProgress PaymentStatus = "INPROGRESS"
+	PaymentStatusInSaved    PaymentStatus = "SAVED"
+)
+
+const (
+	CasIn    PaymentType = "cash_in"
+	Transfer PaymentType = "smart_transfer"
+	Qr       PaymentType = "qr"
 )

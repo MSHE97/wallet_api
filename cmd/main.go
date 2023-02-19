@@ -28,7 +28,7 @@ func main() {
 		logger.File.Println("	[AUTOMIGRATE] ", err)
 	}
 	defer Stop()
-	logger.File.Println("	[GIN] routes init...")
+	logger.File.Println("	[GIN] server init...")
 	server := server.InitServer()
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
