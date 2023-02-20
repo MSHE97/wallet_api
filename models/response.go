@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -24,6 +25,13 @@ func (r *Response) Success(pay Payments) (int, *Response) {
 func (r *Response) Totals(req TotalsRequest) (int, *Response) {
 	r.Code = http.StatusOK
 	r.Message = fmt.Sprintf("from: %v - to: %v", req.From, req.To)
+	return r.Code, r
+}
+
+func (r *Response) Balance(amount Money) (int, *Response) {
+	r.Code = http.StatusOK
+	r.Message = fmt.Sprintf("from: %v", time.Now().Format(time.RFC3339))
+	r.Payload = amount
 	return r.Code, r
 }
 

@@ -1,7 +1,7 @@
 package models
 
 // Money - денежная суммы в минимальных еденицах (дирамы, копейки, центы и т.д.)
-type Money int64
+type Money int
 
 // PaymentCategory - представляет собой категорию, в которой был совершён платёж (cafe, auto, food, drugs, ...)
 type PaymentCategory string
