@@ -25,6 +25,7 @@ type Users struct {
 var (
 	ErrUserNotFound = errors.New("user not found ")
 	ErrCreatingUser = errors.New("error creating user ")
+	ErrAccInactive  = errors.New("account inactive ")
 )
 
 func (u *Users) Create() error {
@@ -36,7 +37,7 @@ func (u *Users) Create() error {
 	return nil
 }
 
-func (u *Users) GetByID(ID int64) error {
+func (u *Users) GetByID(ID int) error {
 	if err := db.GetConn().Last(u, ID).Error; err != nil {
 		logger.File.Println(ErrUserNotFound, "by id =", ID)
 		return ErrUserNotFound
@@ -48,6 +49,27 @@ func (u *Users) GetByPhone(phone Phone) error {
 	if err := db.GetConn().Where(Users{Phone: phone, Active: true}).Last(u).Error; err != nil {
 		logger.File.Println(ErrUserNotFound, "phone =", phone)
 		return ErrUserNotFound
+	}
+	return nil
+}
+func (u *Users) GetByUUID(uuid uuid.UUID) error {
+	if err := db.GetConn().Where(Users{Uuid: uuid, Active: true}).Last(u).Error; err != nil {
+		logger.File.Println(ErrUserNotFound, "uuid =", uuid.String())
+		return ErrUserNotFound
+	}
+	return nil
+}
+
+func CheckUser(ac Accounts) error {
+	if len(ac.UserUuid) < 1 {
+		logger.File.Println("	[WARN] empty uuid account ", ac.ID)
+		return ErrUserNotFound
+	}
+	if err := ac.User.GetByUUID(ac.UserUuid); err == ErrUserNotFound || ac.User.ID == 0 {
+		return ErrUserNotFound
+	}
+	if !ac.User.Active {
+		return ErrAccInactive
 	}
 	return nil
 }

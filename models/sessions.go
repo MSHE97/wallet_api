@@ -9,7 +9,7 @@ import (
 
 type Sessions struct {
 	ID        int64      `gorm:"column:id; primary_key; auto_increment" json:"id"`
-	UserID    int64      `gorm:"column:user_id" json:"user_id"`
+	UserID    int        `gorm:"column:user_id" json:"user_id"`
 	IPAddress string     `gorm:"column:ip_address; default:null" json:"ip_address"`
 	LoginAt   time.Time  `gorm:"default: CURRENT_TIMESTAMP" json:"-"`
 	LogoutAt  *time.Time `gorm:"default: null" json:"-"`

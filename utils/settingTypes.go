@@ -23,6 +23,6 @@ type PostgresSets struct {
 }
 
 type Business struct {
-	MaxBalance int `json:"max_balance"`
-	MinBalance int `json:"min_balance"`
+	IdentAccLimit int `json:"max_balance"`
+	SimpAccLimit  int `json:"min_balance"`
 }

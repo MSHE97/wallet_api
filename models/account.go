@@ -7,10 +7,11 @@ import (
 	"wallet/logger"
 
 	"github.com/google/uuid"
+	"github.com/jinzhu/gorm"
 )
 
 type Accounts struct {
-	ID           int64     `gorm:"column:id; primary_key; auto_increment" json:"id"`
+	ID           int       `gorm:"column:id; primary_key; auto_increment" json:"id"`
 	Phone        Phone     `gorm:"column:phone" json:"phone"`
 	UserUuid     uuid.UUID `gorm:"column:user_uuid" json:"user_uuid"`
 	User         Users     `gorm:"-" json:"-"`
@@ -35,6 +36,12 @@ func (a *Accounts) Create() error {
 		return ErrCreatingAcc
 	}
 	return nil
+}
+func (a *Accounts) Update(tx *gorm.DB) {
+	a.UpdatedAt = time.Now()
+	if err := tx.Model(a).Update(a).Error; err != nil {
+		logger.File.Println("	[WARN] payment update ", a, ". ", err)
+	}
 }
 
 func (a *Accounts) GetByID(ID int64) error {
