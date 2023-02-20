@@ -28,8 +28,9 @@ var (
 	ErrPaymentNotFound = errors.New("payment not found ")
 	ErrCreatingPayment = errors.New("error creating payment ")
 	ErrWrongAmount     = errors.New("wrong amount ")
-	ErrWrongReceiveAcc = errors.New("wrong receiver account")
-	ErrOutOfLimit      = errors.New("not enough limit")
+	ErrWrongReceiveAcc = errors.New("wrong receiver account ")
+	ErrOutOfLimit      = errors.New("not enough limit ")
+	ErrNotEnBalance    = errors.New("not enough balance ")
 	ErrInactiveUser    = errors.New("user inactive ")
 )
 
@@ -67,11 +68,26 @@ func (p *Payments) RunProcessing(tx *gorm.DB) error {
 	xAcc.GetByID(xUser.AccountId)
 	toUser.GetByUUID(toAcc.UserUuid)
 
+	p.State = PaymentStatusInProgress
+	// tx.Commit()
+	p.Update(tx)
 	// TODO: снятие с отправителя, начисление получателю, проверка активности пользователей
-
-	if toAcc.Balance+p.Amount < Money(utils.Sets.Business.IdentAccLimit) {
-
+	if xAcc.Balance < p.Amount {
+		logger.File.Printf("	[CASH-IN] transaction faield. Payment ID %v. %v ", p.ID, ErrNotEnBalance)
+		return ErrNotEnBalance
 	}
-	// Изменить статус и сохранить
+	if !xUser.Active || !toUser.Active {
+		logger.File.Printf("	[CASH-IN] transaction faield. Payment ID %v. %v ", p.ID, ErrInactiveUser)
+		return ErrInactiveUser
+	}
+	if toAcc.Balance+p.Amount > Money(utils.Sets.Business.IdentAccLimit) {
+		logger.File.Printf("	[CASH-IN] transaction faield. Payment ID %v. %v ", p.ID, ErrOutOfLimit)
+		return ErrOutOfLimit
+	}
+
+	xAcc.Balance -= p.Amount
+	toAcc.Balance += p.Amount
+	xAcc.Update(tx)
+	toAcc.Update(tx)
 	return nil
 }

@@ -62,7 +62,11 @@ func cashIn(c *gin.Context) {
 	if err := transaction.RunProcessing(tx); err != nil {
 		c.JSON(resp.TransactionError(err))
 		tx.Rollback()
+		transaction.State = models.PaymentStatusFail
+		transaction.Create(tx)
 		return
 	}
-
+	transaction.State = models.PaymentStatusOk
+	transaction.Update(tx)
+	c.JSON(resp.Success(transaction))
 }
