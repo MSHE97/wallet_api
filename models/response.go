@@ -13,10 +13,17 @@ type Response struct {
 	Payload interface{} `json:"payload"`
 }
 
+func (r *Response) Success(pay Payments) (int, *Response) {
+	r.Code = http.StatusOK
+	r.Message = "payment success"
+	r.Payload = pay
+	return r.Code, r
+}
+
 func (r *Response) BadRequest(err error) (int, *Response) {
 	r.Code = http.StatusBadRequest
 	r.Message = err.Error()
-	return int(r.Code), r
+	return r.Code, r
 }
 
 func (r *Response) NotFound(err error) (int, *Response) {
