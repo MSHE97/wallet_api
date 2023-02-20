@@ -15,6 +15,8 @@ func Init() *gin.Engine {
 		auth.POST("/ping", ping)
 		auth.POST("/account/check", check4Exist)
 		auth.POST("/cash_in", cashIn)
+		auth.POST("/totals", totals)
+		auth.POST("/balance", checkBalance)
 	}
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Page not found"})

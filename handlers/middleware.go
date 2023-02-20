@@ -4,7 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"wallet/logger"
@@ -44,7 +44,7 @@ func ApiAuth() gin.HandlerFunc {
 			return
 		}
 
-		body, err := ioutil.ReadAll(c.Request.Body)
+		body, err := io.ReadAll(c.Request.Body)
 		if err != nil {
 			logger.File.Println("[AUTH] request Abortion. ", err)
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err})

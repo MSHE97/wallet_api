@@ -32,6 +32,7 @@ var (
 	ErrOutOfLimit      = errors.New("not enough limit ")
 	ErrNotEnBalance    = errors.New("not enough balance ")
 	ErrInactiveUser    = errors.New("user inactive ")
+	ErrNotAllow        = errors.New("not allowed ")
 )
 
 func (p *Payments) Create(tx *gorm.DB) error {

@@ -44,7 +44,7 @@ func (a *Accounts) Update(tx *gorm.DB) {
 	}
 }
 
-func (a *Accounts) GetByID(ID int64) error {
+func (a *Accounts) GetByID(ID int) error {
 	if err := db.GetConn().Last(a, ID).Error; err != nil {
 		logger.File.Println(ErrAccNotFound, "id = ", ID)
 		return ErrAccNotFound
