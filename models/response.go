@@ -71,3 +71,9 @@ func (r *Response) TransactionError(err error) (int, *Response) {
 	r.Message = err.Error()
 	return r.Code, r
 }
+
+func (r *Response) InternalError(err error) (int, *Response) {
+	r.Code = http.StatusInternalServerError
+	r.Message = err.Error()
+	return r.Code, r
+}

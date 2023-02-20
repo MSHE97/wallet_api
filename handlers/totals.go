@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"io"
-	"io/ioutil"
 	"time"
 	"wallet/models"
 
@@ -16,7 +15,7 @@ func totals(c *gin.Context) {
 		dflt bool
 	)
 
-	_, err := ioutil.ReadAll(c.Request.Body)
+	_, err := io.ReadAll(c.Request.Body)
 	if err == io.EOF {
 		dflt = true
 	}
@@ -31,5 +30,9 @@ func totals(c *gin.Context) {
 		}
 	}
 	resp.Payload, err = req.GetTotals()
+	if err != nil {
+		c.JSON(resp.InternalError(err))
+		return
+	}
 	c.JSON(resp.Totals(req))
 }
