@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,12 @@ func (r *Response) Success(pay Payments) (int, *Response) {
 	r.Code = http.StatusOK
 	r.Message = "payment success"
 	r.Payload = pay
+	return r.Code, r
+}
+
+func (r *Response) Totals(req TotalsRequest) (int, *Response) {
+	r.Code = http.StatusOK
+	r.Message = fmt.Sprintf("from: %v - to: %v", req.From, req.To)
 	return r.Code, r
 }
 

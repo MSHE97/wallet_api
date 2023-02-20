@@ -15,7 +15,8 @@ type Phone string
 
 // Предопределённые статусы
 const (
-	PaymentStatusOk         PaymentStatus = "OK"
+	PaymentStatusOk         PaymentStatus = "COMPLETE"
+	PaymentStatusRefund     PaymentStatus = "REFUND"
 	PaymentStatusFail       PaymentStatus = "FAIL"
 	PaymentStatusInProgress PaymentStatus = "INPROGRESS"
 	PaymentStatusInSaved    PaymentStatus = "SAVED"
